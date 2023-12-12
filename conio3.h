@@ -1,9 +1,11 @@
 #ifndef _CONIO3_H_
 #define _CONIO3_H_
 
+// bom dia
+
 #include <conio.h>
 #ifdef UNICODE
-    #include <windows.h> 
+    #include <windows.h>    
 #endif
 
 #ifdef __cplusplus
@@ -34,8 +36,8 @@ typedef enum {
 
 /*@{*/
 /**
- * This defines enables you to use all MinGW conio.h functions without
- * underscore.
+ * Esses defines sao para voce poder utilizar todas as funcoes do conio.h 
+ * original sem a sublinha.
  */
 #define cgets   _cgets
 #define cprintf _cprintf
@@ -55,10 +57,10 @@ typedef enum {
 /*@}*/
 
 /**
- * Define alias for _conio_gettext.
- * If you want to use gettext function from some other library
- * (e.g. GNU gettext) you have to define _CONIO_NO_GETTEXT_ so you won't get
- * name conflict.
+ * Define um alias para _conio_gettext
+ * Se voce importar outra biblioteca com o mesmo nome gettext
+ * voce precisa definir _CONIO_NO_GETTEXT_ e entao voce nao tera conflito
+ * de nome
  */
 #ifndef _CONIO_NO_GETTEXT_
   #define gettext _conio_gettext
@@ -69,34 +71,33 @@ typedef enum {
 /**
  * @anchor cursortypes
  * @name Cursor types
- * Predefined cursor types. */
+ * Tipos pre-definidos de cursor */
 /*@{*/
-#define _NOCURSOR 0         /**< no cursor */
-#define _SOLIDCURSOR 100    /**< cursor filling whole cell */
-#define _NORMALCURSOR 20    /**< cursor filling 20 percent of cell height */
+#define _NOCURSOR 0         /**< Sem cursor */
+#define _SOLIDCURSOR 100    /**< Cursor preenchendo todo o espaco */
+#define _NORMALCURSOR 20    /**< Cursor preenchendo 20% da celula alvo */
 /*@}*/
 
 /**
- * Structure holding information about screen.
+ * Estrutura recebendo informacoes sobre a tela.
  * @see gettextinfo
  * @see inittextinfo
  */
 struct text_info {
-    unsigned char curx;          /**< cursor coordinate x */
-    unsigned char cury;          /**< cursor coordinate y */
-    unsigned short attribute;    /**< current text attribute */
-    unsigned short normattr;     /**< original value of text attribute after
-                                      start of the application. If you don't
-                                      called the <TT>inittextinfo</TT> on the
-                                      beginning of the application, this always
-                                      will be black background and light gray
-                                      foreground */
-    unsigned char screenwidth;   /**< screen width */
-    unsigned char screenheight;  /**< screen height */
+    unsigned char curx;          /**< coordenada do cursor x */
+    unsigned char cury;          /**< coordenada do cursor y */
+    unsigned short attribute;    /**< text attribute atual */
+    unsigned short normattr;     /**  valor original do text_attribute apos
+                                      o inicio da aplicacao. Se voce nao
+                                      chamou <TT>inittextinfo</TT> no comeco
+                                      da sua aplicacao, isso sempre sera
+                                      o fundo preto com a fonte cinza_claro */
+    unsigned char screenwidth;   /**< largura da tela */
+    unsigned char screenheight;  /**< altura da tela */
 };
 
 /**
- * Structure used by gettext/puttext.
+ * Estrutura usada pelo gettext/puttext.
  * @see _conio_gettext
  * @see puttext
  */
@@ -110,149 +111,153 @@ struct char_info {
 };
 
 /**
- * Returns information of the screen.
+ * Retorna uma estrutura contendo as informacoes da tela
+ * struct text_info na documentacao
  * @see text_info
  */
 void gettextinfo (struct text_info * info);
 
 /**
- * Call this if you need real value of normattr attribute in the text_info
- * structure.
+ * Chame essa funcao se voce necessita do valor atual normattr da estrutura 
+ * text_info
  * @see text_info
  */
 void inittextinfo (void);
 
 /**
- * Clears rest of the line from cursor position to the end of line without
- * moving the cursor.
+ * Limpa o resto da linha partindo da posicao do cursor até o final da linha
+ * sem mover o cursor
  */
 void clreol (void);
 
 /**
- * Clears whole screen.
+ * Limpa a tela inteira
  */
 void clrscr (void);
 
 /**
- * Delete the current line (line on which is cursor) and then moves all lines
- * below one line up. Lines below the line are moved one line up.
+ * Deleta a linha atual (linha onde está posiscionado o cursor) entao move
+ * todas as linhas uma linha acima. Linhas abaixo da linha sao movidas uma 
+ * linha acima.
  */
 void delline (void);
 
 /**
- * Insert blank line at the cursor position.
- * Original content of the line and content of lines below moves one line down.
- * The last line is deleted.
+ * Insere uma linha em branco na posicao atual do cursor.
+ * O conteudo original da linha e o conteudo das linhas abaixo sao movidas uma 
+ * linha abaixo.
+ * A ultima linha sera deletada
  */
 void insline (void);
 
 /**
- * Gets text from the screen. If you haven't defined <TT>_CONIO_NO_GETTEXT_</TT>
- * prior to including <TT>conio3.h</TT> you can use this function also under
- * the <TT>gettext</TT> name.
+ * Recebe texto da tela. Se voce nao definiu <TT>_CONIO_NO_GETTEXT_</TT> sobre
+ * o include <TT>conio3.h</TT> voce pode usar essa funcao com o nome <TT>gettext</TT>.
  * @see char_info
  * @see puttext
- * @param left Left coordinate of the rectangle, inclusive, starting from 1.
- * @param top Top coordinate of the rectangle, inclusive, starting from 1.
- * @param right Right coordinate of the rectangle, inclusive, starting from 1.
- * @param bottom Bottom coordinate of the rectangle, inclusive, starting from 1.
- * @param buf You have to pass buffer of size
+ * @param left Coordenada esquerda do retangulo, inclusive, a partir de 1.
+ * @param top Coordenada superior do retangulo, inclusive, a partir de 1.
+ * @param right Coordenada direita do retangulo, inclusive, a partir de 1.
+ * @param bottom Coordenada inferior do retangulo, inclusive, a partir de 1.
+ * @param buf Voce precisa passar o tamanho do buffer
  * <TT>(right - left + 1) * (bottom - top + 1) * sizeof(char_info)</TT>.
  */
 void _conio_gettext (int left, int top, int right, int bottom,
                      struct char_info * buf);
 
 /**
- * Puts text back to the screen.
+ * Insere o texto de volta para a tela.
  * @see char_info
  * @see _conio_gettext
- * @param left Left coordinate of the rectangle, inclusive, starting from 1.
- * @param top Top coordinate of the rectangle, inclusive, starting from 1.
- * @param right Right coordinate of the rectangle, inclusive, starting from 1.
- * @param bottom Bottom coordinate of the rectangle, inclusive, starting from 1.
- * @param buf You have to pass buffer of size
+ * @param left Coordenada esquerda do retangulo, inclusive, a partir de 1.
+ * @param top Coordenada superior do retangulo, inclusive, a partir de 1.
+ * @param right Coordenada direita do retangulo, inclusive, a partir de 1.
+ * @param bottom Coordenada inferior do retangulo, inclusive, a partir de 1.
+ * @param buf Voce precisa passar o tamanho do buffer
  * <TT>(right - left + 1) * (bottom - top + 1) * sizeof(char_info)</TT>.
  */
 void puttext (int left, int top, int right, int bottom, struct char_info * buf);
 
 /**
- * Copies text.
- * @param left Left coordinate of the rectangle, inclusive, starting from 1.
- * @param top Top coordinate of the rectangle, inclusive, starting from 1.
- * @param right Right coordinate of the rectangle, inclusive, starting from 1.
- * @param bottom Bottom coordinate of the rectangle, inclusive, starting from 1.
- * @param destleft Left coordinate of the destination rectangle.
- * @param desttop Top coordinate of the destination rectangle.
+ * Copia texto
+ * @param left Coordenada esquerda do retangulo, inclusive, a partir de 1.
+ * @param top Coordenada superior do retangulo, inclusive, a partir de 1.
+ * @param right Coordenada direita do retangulo, inclusive, a partir de 1.
+ * @param bottom Coordenada inferior do retangulo, inclusive, a partir de 1.
+ * @param destleft Coordenada esquerda do retangulo de destino.
+ * @param desttop Coordenada superior do retangulo de destino.
  */
 void movetext (int left, int top, int right, int bottom, int destleft,
               int desttop);
 
 /**
- * Moves cursor to the specified position.
- * @param x horizontal position
- * @param y vertical position
+ * Move o cursor para a posicao desejada
+ * Considere 1, 1 para a primeira posicao
+ * @param x posicao horizontal
+ * @param y posicao vertical
  */
 void gotoxy(int x, int y);
 
 /**
- * Puts string at the specified position.
- * @param x horizontal position
- * @param y vertical position
+ * Insere uma *string na posicao desejada
+ * @param x posicao horizontal
+ * @param y posicao vertical
  * @param str string
  */
 void cputsxy (int x, int y, char * str);
 
 /**
- * Puts char at the specified position.
- * @param x horizontal position
- * @param y vertical position
+ * Insere um caractere numa posicao especifica
+ * @param x posicao horizontal
+ * @param y posicao vertical
  * @param ch char
  */
 void putchxy (int x, int y, char ch);
 
 /**
- * Sets the cursor type.
+ * [DEPRECIADO] Define o tipo do cursor
  * @see @ref cursortypes
- * @param type cursor type, under Win32 it is height of the cursor in percents
+ * @param type tipo do cursor, sobre Win32, o tamanho do cursor em porcentagem
  */
 void _setcursortype (int type);
 
 /**
- * Sets attribute of text.
- * @param _attr new text attribute
+ * Seta o atributo do novo texto a ser impresso
+ * @param _attr novo atributo
  */
 void textattr (int _attr);
 
 /**
- * Sets text attribute back to value it had after program start.
- * It uses text_info's normattr value.
+ * Define o atributo de texto de volta a ultima pre-definicao criada
+ * antes do programa iniciar.
+ * Usa o valor de text_info normattr 
  * @see text_info
  */
 void normvideo (void);
 
 /**
- * Sets text background color.
+ * Define a cor de fundo do texto
  * @see COLORS
- * @param color new background color
+ * @param color nova cor de fundo
  */
 void textbackground (int color);
 
 /**
- * Sets text foreground color.
+ * Define a cor da fonte
  * @see COLORS
- * @param color new foreground color
+ * @param color nova cor da fonte
  */
 void textcolor (int color);
 
 /**
- * Reads the cursor X position.
- * @returns cursor X position
+ * Le e retorna a posicao X do cursor
+ * @returns posicao X do cursor
  */
 int wherex (void);
 
 /**
- * Reads the cursor Y position.
- * @returns cursor Y position
+ * Le e retorna a posicao Y do cursor
+ * @returns posicao Y do cursor
  */
 int wherey (void);
 
@@ -270,18 +275,18 @@ int wherey (void);
 char * getpass (const char * prompt, char * str);
 
 /**
- * Makes foreground colors light.
- * If the current foreground color is less than <TT>DARKGRAY</TT> adds
- * 8 to the its value making dark colors light.
+ * Faz as cores de fonte ficarem claras.
+ * Se a cor atual das fontes forem menores que <TT>CINZA_ESCURO</TT> adiciona
+ * 8 para o seu valor, deixando as cores escuras, claras.
  * @see COLORS
  * @see lowvideo
  */
 void highvideo (void);
 
 /**
- * Makes foreground colors dark.
- * If the current foreground color is higher than <TT>LIGHTGRAY</TT> substracts
- * 8 from its value making light colors dark.
+ * Faz as cores de fundo ficarem escuras.
+ * Se a cor atual das fontes forem menores que <TT>CINZA_CLARO</TT> subtrai
+ * 8 do seu valor, deixando as cores claras, escuras.
  * @see COLORS
  * @see highvideo
  */
@@ -305,34 +310,34 @@ _CRTIMP int __cdecl               _cwscanf(const wchar_t *, ...);
 /*@}*/
 
 /**
- * Pauses program execution for a given time.
+ * Pausa o programa por alguns milissegundos.
  * @see switchbackground
- * @param ms miliseconds
+ * @param ms milissegundos
  */
 void delay (int ms);
 
 /**
- * Replaces background color in the whole window. The text however
- * is left intact. Does not modify textbackground().
+ * Repoe a cor de fundo de toda a tela. O texto, permanece intacto.
+ * Nao modifica textbackground()
  * @see flashbackground
- * @param color background color
+ * @param color cor de fundo
  */
 void switchbackground (int color);
 
 /**
- * Changes background color for a given time and then it restores it back.
- * You can use it for visual bell. Does not modify textbackground().
+ * Muda a cor de fundo por um certo periodo, entao a restora de volta.
+ * Voce pode usar isso para um sino visual. Nao modifica textbackground()
  * @see switchbackground
  * @see delay
- * @param color background color
- * @param ms miliseconds
+ * @param color cor de fundo
+ * @param ms milissegundos
  */
 void flashbackground (int color, int ms);
 
 /**
- * Clears the keyboard buffer.
- * To see it in effect run <TT>conio_test</TT> and try to press a key during
- * the 'Flashing...' phase.
+ * Limpa o buffer do teclado
+ * Para ve-lo em efeito, execute <TT>conio_test</TT> e tente apertar alguma
+ * tecla durante a fase "Flashing..."
  */
 void clearkeybuf (void);
 
