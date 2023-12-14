@@ -4,9 +4,9 @@ AR=ar
 RANLIB=ranlib
 
 
-libconio_64.a: conio_64.o
-	$(AR) r libconio_64.a conio_64.o
-	$(RANLIB) libconio_64.a
+libc_64.a: c.o
+	$(AR) r libc.a c.o
+	$(RANLIB) libc.a
 
-conio_64.o: conio.c conio3.h
-	$(CC) -Wall -Wextra -g3 -O3 -s -c conio.c -o conio_64.o -m64
+c.o: c.c conio3.h
+	$(CC) -Wall -Wextra -g3 -O3 -s -c c.c -o c.o -m64
