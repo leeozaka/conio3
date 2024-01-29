@@ -1,3 +1,3 @@
-provide conio3.h to the application 
-add -lc to the linker 
-build it
+<p> provide conio3.h to the application </p>
+<p> add -lc to the linker</p> 
+<p> build it </p>
