@@ -210,7 +210,7 @@ void cputsxy(int x, int y, char* str) {
 
 void putchxy(int x, int y, char ch) {
     gotoxy(x, y);
-    putch(ch);
+    _putch(ch);
 }
 
 void _setcursortype(int type) {

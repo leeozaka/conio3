@@ -5,7 +5,7 @@
 
 #include <conio.h>
 #ifdef UNICODE
-    #include <windows.h>
+#include <windows.h>
 #endif
 
 #ifdef __cplusplus
@@ -16,22 +16,41 @@ extern "C" {
  * Colors which you can use in your application.
  */
 typedef enum {
-    PRETO,
-    AZUL,
-    VERDE,
-    CIANO,
-    VERMELHO,
-    ROSA,
-    MARROM,
-    CINZA_CLARO,
-    CINZA_ESCURO,
-    AZUL_CLARO,
-    VERDE_CLARO,
-    CIANO_CLARO,
-    VERMELHO_CLARO,
-    ROSA_CLARO,
-    AMARELO,
-    BRANCO
+  PRETO,
+  AZUL,
+  VERDE,
+  CIANO,
+  VERMELHO,
+  ROSA,
+  MARROM,
+  CINZA_CLARO,
+  CINZA_ESCURO,
+  AZUL_CLARO,
+  VERDE_CLARO,
+  CIANO_CLARO,
+  VERMELHO_CLARO,
+  ROSA_CLARO,
+  AMARELO,
+  BRANCO
+} CORES;
+
+typedef enum {
+  BLACK,
+  BLUE,
+  GREEN,
+  CYAN,
+  RED,
+  PURPLE,
+  BROWN,
+  LIGHT_GRAY,
+  DARK_GREY,
+  LIGHT_BLUE,
+  LIGHT_GREEN,
+  LIGHT_CYAN,
+  LIGHT_RED,
+  LIGHT_PURPLE,
+  YELLOW,
+  WHITE
 } COLORS;
 
 /*@{*/
@@ -84,16 +103,16 @@ typedef enum {
  * @see inittextinfo
  */
 struct text_info {
-    unsigned char curx;         /**< coordenada do cursor x */
-    unsigned char cury;         /**< coordenada do cursor y */
-    unsigned short attribute;   /**< text attribute atual */
-    unsigned short normattr;    /**  valor original do text_attribute apos
-                                     o inicio da aplicacao. Se voce nao
-                                     chamou <TT>inittextinfo</TT> no comeco
-                                     da sua aplicacao, isso sempre sera
-                                     o fundo preto com a fonte cinza_claro */
-    unsigned char screenwidth;  /**< largura da tela */
-    unsigned char screenheight; /**< altura da tela */
+  unsigned char curx;         /**< coordenada do cursor x */
+  unsigned char cury;         /**< coordenada do cursor y */
+  unsigned short attribute;   /**< text attribute atual */
+  unsigned short normattr;    /**  valor original do text_attribute apos
+                                   o inicio da aplicacao. Se voce nao
+                                   chamou <TT>inittextinfo</TT> no comeco
+                                   da sua aplicacao, isso sempre sera
+                                   o fundo preto com a fonte cinza_claro */
+  unsigned char screenwidth;  /**< largura da tela */
+  unsigned char screenheight; /**< altura da tela */
 };
 
 /**
@@ -103,11 +122,11 @@ struct text_info {
  */
 struct char_info {
 #ifdef UNICODE
-    wchar_t letter; /**< character value */
+  wchar_t letter; /**< character value */
 #else
-    char letter; /**< character value */
+  char letter; /**< character value */
 #endif
-    unsigned short attr; /**< attribute value */
+  unsigned short attr; /**< attribute value */
 };
 
 /**
@@ -152,7 +171,8 @@ void insline(void);
 
 /**
  * Recebe texto da tela. Se voce nao definiu <TT>_CONIO_NO_GETTEXT_</TT> sobre
- * o include <TT>conio3.h</TT> voce pode usar essa funcao com o nome <TT>gettext</TT>.
+ * o include <TT>conio3.h</TT> voce pode usar essa funcao com o nome
+ * <TT>gettext</TT>.
  * @see char_info
  * @see puttext
  * @param left Coordenada esquerda do retangulo, inclusive, a partir de 1.
